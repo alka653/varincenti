@@ -1,0 +1,1 @@
+web: gunicorn varincenti_app.wsgi
