@@ -78,7 +78,6 @@ WSGI_APPLICATION = 'varincenti_app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
-"""
 DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.sqlite3',
@@ -98,7 +97,7 @@ DATABASES = {
 		'HOST': '127.0.0.1'
 	}
 }
-
+"""
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
