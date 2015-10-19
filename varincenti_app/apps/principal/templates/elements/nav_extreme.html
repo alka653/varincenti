@@ -1,0 +1,29 @@
+<div class="hybrid-bar green-light" style="padding: 10px">
+	<div class="row">
+		<nav class="tab-bar green-light">
+			<div class="title-area">
+				<div class="name">
+					<h1><a href="{% url 'home_extreme' %}"><strong>Extreme Entretairment <small>Varincenti</small></strong></a></h1>
+				</div>
+			</div>
+			<section class="right-small show-for-small">
+				<a class="right-off-canvas-toggle menu-icon" href="#"><span></span></a>
+			</section>
+		</nav>
+		<aside class="right-off-canvas-menu green-light">
+			<ul class="off-canvas-list">
+				<li class="show-for-small">
+					<label>Menú Principal</label>
+				</li>
+				<li><a href="{% url 'home_extreme' %}" class="rounded-hover">Inicio</a></li>
+				<li><a href="{% url 'product_extreme' %}" class="rounded-hover">Productos</a></li>
+				{% if user.is_authenticated %}
+					<li><a href="#" class="rounded-hover">Mis reservas</a></li>
+					<li><a href="{% url 'logout' %}" class="rounded-hover">Cerrar sesión</a></li>
+				{% else %}
+					<li><a href="{% url 'login' %}" class="rounded-hover">Acceder</a></li>
+				{% endif %}
+			</ul>
+		</aside>
+	</div>
+</div>

@@ -1,0 +1,416 @@
+blue_light = #4aa3df
+blue_dark = #2980b9
+white = #fff
+green_light = #2ecc71
+green_dark = #2abb67
+red_light = #e74c3c
+red_dark = #c0392b
+yellow_dark = #f39c12
+yellow_light = #f1c40f
+dark = #2c3e50
+dark_light = #34495e
+cloud = #ecf0f1
+silver = #bdc3c7
+
+box-shadow(args)
+	-webkit-box-shadow args
+	-moz-box-shadow args
+	box-shadow args
+
+border-radius(args)
+	-webkit-border-radius args
+	-moz-border-radius args
+	border-radius args
+
+filter(args)
+	-webkit-filter args
+	-moz-border-filter args
+	filter args
+
+transition(args)
+	-webkit-transition args
+	-moz-transition args
+	transition args
+
+transform(args)
+	-webkit-transition args
+	-moz-transition args
+	transform args
+
+html
+body
+	font-family 'Roboto', sans-serif
+	height 100%
+	background-color cloud
+
+body
+	height auto
+
+.tab-bar
+	background none
+
+.hybrid-bar
+	.tab-bar
+		height 2.8125rem
+	.name
+		a
+			color #fff
+			display block
+			font-weight normal
+			padding 0 15px
+			small
+				color #fff
+	ul
+		.off-canvas-list
+			li
+				.btn-rfq
+					background #333333
+					padding 0 15px
+					height 45px
+			> a
+				position relative
+				top 7px
+				background-color #008cba
+				border-color #007095
+				padding-top 0.45rem
+				padding-bottom 0.35rem
+				line-height normal
+				color cloud
+				&:hover
+				&:focus
+					background-color #007095
+					color cloud
+
+.move-left
+.move-right
+	>.inner-wrap
+		height 100%
+
+ul.off-canvas-list
+	li
+		a
+			border-bottom none
+			font-weight 400
+			&:hover
+				background rgba(0,0,0,0.2)
+		label
+			background rgba(0,0,0,0.2)
+			color cloud
+
+.right-small
+	border-left none
+
+.social-head
+	background cloud
+
+.back-white
+.back-green
+	padding 30px 15px 10px 15px
+
+.back-white
+	background-color #fff
+
+.back-green
+	background-color green_dark
+	h1
+	h2
+	h3
+	p
+		color cloud
+
+.head-title
+	padding 10px 10px 0px 10px
+	background-color cloud
+	p
+		font-weight 400
+		color cloud
+	h1
+		color cloud
+
+.index
+	background url('../image/background/principal.jpg') center center no-repeat
+
+.extreme
+	background url('../image/background/extreme.jpg') center center no-repeat
+
+.index
+.extreme
+	background-size cover
+	background-color cloud
+
+.circle
+	border-radius(200px 200px 200px 200px)
+	width 150px
+	height auto
+
+.image-team
+	width 150px
+	height auto
+
+.text-red-dark
+	color red_dark
+
+.alert-box
+	padding 1.3rem
+	border-width 0 0 0 0.35rem
+	font-size 1rem
+	.radius
+		border-radius 0.6rem
+	.info
+		border-left-color blue_dark
+		background-color blue_light
+	.alert
+		border-left-color red_dark
+		background-color red_light
+	.success
+		border-left-color green_dark
+		background-color green_light
+	.warning
+		border-left-color yellow_dark
+		background-color yellow_lightdark
+		background-color yellow_light
+
+.item-wrapper
+	padding 20px
+	border 2px solid #efefef
+	border-radius(7px)
+	margin-top 40px
+	&:hover
+		.img-wrapper
+			img
+				filter(grayscale(0))
+		.add-to-cart
+			bottom 0
+	h3
+		font-size 22px
+	h5
+		font-weight bold
+	p
+		color #888
+		font-size 13px
+		margin-bottom 0
+
+.img-wrapper
+	margin-bottom 20px
+	position relative
+	overflow hidden
+	.add-to-cart
+		transition(all 0.2s ease)
+		background-color blue_dark
+		padding 16px 8px
+		bottom -50px
+		position absolute
+		z-index 2
+		color #fff
+		margin 0 auto
+		border none
+		box-shadow(none)
+		&:hover
+			background-color blue_light
+	img
+		transition(all 0.2s ease)
+		filter(grayscale(1))
+		width 100%
+
+.fixed-high
+	position none
+	top 0
+	width 100%
+	left 0
+
+footer
+	font-weight 300
+	h1
+	h2
+	h3
+	h4
+	h5
+	h6
+	p
+	strong
+	.row
+		padding 10px 10px 0px 10px
+		color cloud
+	.icon-social
+		width 30px
+		height auto
+	.sub-footer
+		margin-top 20px
+		padding 15px 0px 1px 0px
+		font-weight 100 !important
+		width 100%
+		height auto
+
+.footer-principal
+	background-color blue_light
+	.sub-footer
+		background-color blue_dark
+		p
+			color blue_light
+
+.footer-extreme
+	background-color green_light
+	.sub-footer
+		background-color green_dark
+		p
+			color green_light
+
+.blue
+	background blue_light
+
+.red
+	background-color red_light
+
+.dark-light
+	background-color dark_light
+
+.green-light
+	background-color green_light
+
+.blue-light
+	background-color blue_light
+
+.blue-dark
+	background-color blue_dark
+
+.white-mote
+	background-color #f5f5f5
+
+.white
+	background-color white
+
+.blue
+.red
+.dark_light
+.green-light
+.blue-light
+.blue-dark
+	h1
+	h2
+	h3
+	h4
+	h5
+	p
+	small
+		color white
+
+.profile-card
+	padding-top 25px
+	box-shadow(0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12))
+	margin 2rem 0
+	background-color white
+	img
+		width 140px
+		height 140px
+		display block
+		margin 0 auto
+		text-align center
+		border-radius(50%)
+		box-shadow(2px 2px 5px #888888)
+	.profile-info
+		padding 1rem 
+		h4
+			margin-top 0
+			text-align center
+			text-transform uppercase
+		p
+			text-align center
+		.inline-list
+			text-align center
+			margin-bottom 1rem
+			li
+				float none
+				display inline-block
+
+.orbit-bullets
+	li
+		background cloud
+
+.box
+	padding 10px 20px 3px 20px
+	color cloud
+	text-align center
+
+.container-init
+	margin-top 150px
+
+.card-login
+	background-color white
+	padding 15px
+	box-shadow(0px 2px 4px rgba(0,0,0,0.12))
+
+.login-footer
+	p
+		padding-top 5px
+		color silver
+
+.img-square
+	border-radius(10px)
+
+@media only screen and (min-width 40.063em)
+
+	.fixed-high
+		position fixed
+		top 0
+		width 100%
+		z-index 99
+		left 0
+
+	.box
+		text-align center
+		padding 10px 20px 3px 20px
+
+	.head-title
+		padding 60px 0px 0px 0px
+
+	.contain-to-grid
+		.hybrid-bar
+			max-width 62.5rem
+			margin 0 auto
+			margin-bottom 0
+
+	.hybrid-bar
+		overflow hidden
+		.tab-bar
+			display inline-block
+		.right-off-canvas-menu
+			display inline
+			width auto
+			height auto !important
+			top auto
+			bottom auto
+			position relative
+		ul.off-canvas-list
+			float right
+			list-style-type none
+			padding 0
+			margin 0
+			li
+				float left
+				label
+					padding 0.3rem 0.9375rem
+					color silver
+					text-transform uppercase
+					font-weight bold
+					background cloud
+					border-top 1px solid silver
+					border-bottom none
+					margin 0
+				a
+					font-size 16px
+					display block
+					color cloud
+					padding 12px 12px 12px 12px
+					font-size 0.8125rem
+					text-transform none
+					background transparent
+					&:hover
+						background rgba(0,0,0,0.2)
+
+	.rounded-hover
+		&:hover
+			border-radius(5px 5px 5px 5px)
+
+	.max-slider
+		.orbit-bullets-container
+			margin-top -55px

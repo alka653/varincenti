@@ -1,0 +1,63 @@
+{% extends 'layout/varincenti.html' %}
+
+{% load staticfiles %}
+
+{% block content_nav %}
+	{% include 'elements/nav_extreme.html' %}
+{% endblock content_nav %}
+
+{% block content %}
+		<div class="max-slider">
+			<ul data-orbit>
+				<li><img src="http://placehold.it/1000x400&text=[ img 1 ]" /></li>
+				<li><img src="http://placehold.it/1000x400&text=[ img 2 ]" /></li>
+				<li><img src="http://placehold.it/1000x400&text=[ img 3 ]" /></li>
+				<li><img src="http://placehold.it/1000x400&text=[ img 4 ]" /></li>
+			</ul>
+		</div>
+		<div class="back-white">
+			<div class="row">
+				<h3>Foundation Top Bar/Off-Canvass Hybrid Navigation</h3>
+				<p>Etiam dictum lectus est, nec hendrerit eros rhoncus eu. Proin condimentum nibh ante, a sagittis velit luctus a. Quisque quis risus et ante adipiscing porttitor. Etiam mi quam, eleifend nec venenatis ut, accumsan eget risus. Etiam lobortis, massa quis sagittis varius, neque nulla rutrum risus, vel imperdiet sem tortor eget dolor. Phasellus suscipit mi ac varius posuere. Mauris gravida id dui sit amet ullamcorper. Nullam gravida nibh et mi iaculis, a varius dui varius.</p>
+				<p>Etiam dictum lectus est, nec hendrerit eros rhoncus eu. Proin condimentum nibh ante, a sagittis velit luctus a. Quisque quis risus et ante adipiscing porttitor. Etiam mi quam, eleifend nec venenatis ut, accumsan eget risus. Etiam lobortis, massa quis sagittis varius, neque nulla rutrum risus, vel imperdiet sem tortor eget dolor. Phasellus suscipit mi ac varius posuere. Mauris gravida id dui sit amet ullamcorper. Nullam gravida nibh et mi iaculis, a varius dui varius.</p>
+				<p>Etiam dictum lectus est, nec hendrerit eros rhoncus eu. Proin condimentum nibh ante, a sagittis velit luctus a. Quisque quis risus et ante adipiscing porttitor. Etiam mi quam, eleifend nec venenatis ut, accumsan eget risus. Etiam lobortis, massa quis sagittis varius, neque nulla rutrum risus, vel imperdiet sem tortor eget dolor. Phasellus suscipit mi ac varius posuere. Mauris gravida id dui sit amet ullamcorper. Nullam gravida nibh et mi iaculis, a varius dui varius.</p>
+				<p>Etiam dictum lectus est, nec hendrerit eros rhoncus eu. Proin condimentum nibh ante, a sagittis velit luctus a. Quisque quis risus et ante adipiscing porttitor. Etiam mi quam, eleifend nec venenatis ut, accumsan eget risus. Etiam lobortis, massa quis sagittis varius, neque nulla rutrum risus, vel imperdiet sem tortor eget dolor. Phasellus suscipit mi ac varius posuere. Mauris gravida id dui sit amet ullamcorper. Nullam gravida nibh et mi iaculis, a varius dui varius.</p>
+				<p>Etiam dictum lectus est, nec hendrerit eros rhoncus eu. Proin condimentum nibh ante, a sagittis velit luctus a. Quisque quis risus et ante adipiscing porttitor. Etiam mi quam, eleifend nec venenatis ut, accumsan eget risus. Etiam lobortis, massa quis sagittis varius, neque nulla rutrum risus, vel imperdiet sem tortor eget dolor. Phasellus suscipit mi ac varius posuere. Mauris gravida id dui sit amet ullamcorper. Nullam gravida nibh et mi iaculis, a varius dui varius.</p>
+			</div>
+		</div>
+{% endblock content %}
+
+{% block content_footer %}
+	{% include 'elements/footer_extreme.html' %}
+{% endblock content_footer %}
+
+{% block content_script %}
+	$(function(){
+		var nav = $('.hybrid-bar');
+		var slider = $('.max-slider');
+		var navHomeY = slider.offset().top;
+		var isFixed = false;
+		var $w = $(window);
+		nav.removeClass('green-light');
+		$('.tab-bar').removeClass('green-light');
+		$('.right-off-canvas-menu').removeClass('green-light');
+		if($('.fixed-high').css('position') == 'fixed'){
+			$w.scroll(function(){
+				var scrollTop = $w.scrollTop();
+				if (scrollTop >= 450){
+					nav.addClass('green-light');
+					$('.tab-bar').addClass('green-light');
+					$('.right-off-canvas-menu').addClass('green-light');
+				}else{
+					nav.removeClass('green-light');
+					$('.tab-bar').removeClass('green-light');
+					$('.right-off-canvas-menu').removeClass('green-light');
+				}
+			});
+		}else{
+			nav.addClass('green-light');
+			$('.tab-bar').addClass('green-light');
+			$('.right-off-canvas-menu').addClass('green-light');
+		}
+	});
+{% endblock content_script %}

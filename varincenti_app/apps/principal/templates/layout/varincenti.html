@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Varincenti :: {{ title }}</title>
+		<link rel="shortcut icon" href="{% static 'favicon.ico' %}"/>
+		<link rel="stylesheet" href="{% static 'css/foundation.min.css' %}">
+		<link rel="stylesheet" href="{% static 'css/style.min.css' %}">
+		<script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
+		<script src="{% static 'js/foundation.min.js' %}"></script>
+		<script src="{% static 'js/foundation/foundation.offcanvas.js' %}"></script>
+		<script src="{% static 'js/sticky-footer.js' %}"></script>
+		<meta name="viewport" content="width=device-width, user-scalable=no">
+		<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700' rel='stylesheet' type='text/css'>
+	</head>
+	<body class="{% if not body %}default{% else %}{{ body }}{% endif %}">
+		{% if not template %}
+			<div class="off-canvas-wrap" data-offcanvas>
+				<div class="inner-wrap">
+					<div class="fixed-high">
+						{% block content_nav %}
+						{% endblock content_nav %}
+					</div>
+					{% block content %}
+					{% endblock content %}
+					<a class="exit-off-canvas"></a>
+				</div>
+			</div>
+		{% else %}
+			{% block content_2 %}
+			{% endblock content_2 %}
+		{% endif %}
+		{% block content_footer %}
+		{% endblock content_footer %}
+		<script>
+			$(document).foundation();
+			{% block content_script %}
+			{% endblock content_script %}
+		</script>
+	</body>
+</html>

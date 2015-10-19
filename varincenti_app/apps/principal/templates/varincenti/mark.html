@@ -1,0 +1,45 @@
+{% extends 'layout/varincenti.html' %}
+
+{% load staticfiles %}
+
+{% block content_nav %}
+	{% include 'elements/nav_varincenti.html' %}
+{% endblock content_nav %}
+
+{% block content %}
+	<div class="head-title extreme">
+		<div class="row text-center">
+			<h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </h1>
+			<p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nunc finibus vitae urna sed pretium.</p>
+		</div>
+		<div class="row white">
+			<div class="blue-light box small-12 medium-2 columns">
+				{{ title }}
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="large-12 columns">
+			<div class="row">
+				<div class="back-white">
+					<div class="row">
+						<div class="small-12 medium-6 large-4 columns">
+							<div class="item-wrapper">
+								<div class="img-wrapper">
+									<a href="{% url 'home_extreme' %}" class="button expand add-to-cart">Ingresar</a>
+									<img src="{% static 'image/product/paintball.jpeg' %}">
+								</div>
+								<a><h3>Extreme Entertainment</h3></a>
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin posuere sem enim, accumsan convallis risus semper.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock content %}
+
+{% block content_footer %}
+	{% include 'elements/footer_varincenti.html' %}
+{% endblock content_footer %}
