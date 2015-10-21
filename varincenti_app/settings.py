@@ -118,7 +118,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR,'varincenti_app/static/image')
+MEDIA_ROOT = os.path.join(BASE_DIR,'varincenti_app/static')
 
 MEDIA_URL ='/image/'
 

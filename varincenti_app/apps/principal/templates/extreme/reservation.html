@@ -17,14 +17,24 @@
 		<div class="row">
 			<div class="small-12 large-4 columns">
 				<div class="text-center">
-					<img src="{% static product.photo %}" class="img-square" style="width: 200px; height: 200px">
-					<h4>{{ product.name }}</h4>
+					<img src="{% static product.photo %}" class="img-square" style="width: 200px; height: 200px; margin-bottom: 10px;">
 					<p>{{ product.description }}</p>
 				</div>
 			</div>
 			<div class="small-12 large-8 columns">
-				<h3>Haz una reserva en </h3>
-				<p>Etiam dictum lectus est, nec hendrerit eros rhoncus eu. Proin condimentum nibh ante, a sagittis velit luctus a. Quisque quis risus et ante adipiscing porttitor. Etiam mi quam, eleifend nec venenatis ut, accumsan eget risus. Etiam lobortis, massa quis sagittis varius, neque nulla rutrum risus, vel imperdiet sem tortor eget dolor. Phasellus suscipit mi ac varius posuere. Mauris gravida id dui sit amet ullamcorper. Nullam gravida nibh et mi iaculis, a varius dui varius.</p>
+				<h3>Haz una reserva en {{ product.name }}</h3>
+				<div class="row">
+					{% for message in messages %}
+						<div class="alert-box {{ message.tags }}">{{ message }}</div>
+					{% endfor %}
+				</div>
+				<form action="{% url 'make_reservation' product.id %}" method="post">
+					{% csrf_token %}
+					{% for forms in form %}
+						<label>{{ forms.label }}</label>
+						{{ forms }}
+					{% endfor %}
+				</form>
 			</div>
 		</div>
 	</div>
