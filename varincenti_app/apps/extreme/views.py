@@ -1,4 +1,8 @@
+# -*- encoding: utf-8 -*-
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
+from django.contrib import messages
 from django.shortcuts import render
 from .models import *
 from .forms import *
@@ -17,8 +21,15 @@ def product_extreme(request):
 def make_reservation(request, extreme_id):
 	title = 'Reservaciones'
 	product = Product_extreme.objects.get(pk = extreme_id)
+	user = Reservation(user = request.user)
 	if request.method == 'POST':
-		pass
+		form = ReservationForm(request.POST, instance = user)
+		if form.is_valid():
+			if form.save():
+				messages.add_message(request, 25, 'Exito en la Reserva, estaremos en contácto contigo.')
+				return HttpResponseRedirect(reverse('make_reservation', kwargs = {'extreme_id': extreme_id}))
+			else:
+				messages.add_message(request, 40, '<strong>Error!</strong> Ha ocurrido un error')
 	else:
-		form = ReservationForm(product_extreme = product.id)
+		form = ReservationForm(product_extreme = product.id, instance = user)
 	return render(request, 'extreme/reservation.html', {'title': title, 'product': product, 'form': form})

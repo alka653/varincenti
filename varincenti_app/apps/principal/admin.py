@@ -4,3 +4,4 @@ from .models import *
 
 admin.site.register(Permission)
 admin.site.register(Contact)
+admin.site.register(State)

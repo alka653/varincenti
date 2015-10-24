@@ -1,4 +1,7 @@
 from django.db import models
+from datetime import datetime
+from django.contrib.auth.models import User
+from varincenti_app.apps.principal.models import State
 
 class Product_extreme(models.Model):
 	name = models.CharField(max_length = 50)
@@ -23,11 +26,16 @@ class Camp_product(models.Model):
 		return str(self.place_camp)
 
 class Reservation(models.Model):
+	"""
 	name_complete = models.CharField(max_length = 50)
 	number_telephone = models.CharField(max_length = 10, blank = True)
 	number_cellphone = models.CharField(max_length = 10)
 	email = models.EmailField()
-	date = models.DateTimeField(auto_now = False)
+	"""
+	user = models.ForeignKey(User, blank = False, null = True)
+	date = models.DateTimeField(auto_now = False, default = datetime.now)
+	date_reservation = models.DateField(default = datetime.now)
 	camp_product = models.ForeignKey(Camp_product, blank = False, null = True)
+	state = models.ForeignKey(State, blank = False, null = True, default = 1)
 	def __str__(self):
-		return self.asunto
+		return str(self.date_reservation)

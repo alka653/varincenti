@@ -22,8 +22,9 @@
 				</div>
 			</div>
 			<div class="small-12 large-8 columns">
-				<h3>Haz una reserva en {{ product.name }}</h3>
+				<h3>Hola {{ request.user.first_name }}, haz una reserva en {{ product.name }}</h3>
 				<div class="row">
+					{{ data }}
 					{% for message in messages %}
 						<div class="alert-box {{ message.tags }}">{{ message }}</div>
 					{% endfor %}
@@ -34,6 +35,9 @@
 						<label>{{ forms.label }}</label>
 						{{ forms }}
 					{% endfor %}
+					<div class="text-center">
+						<input type="submit" value="Reservar" class="button success radius" />
+					</div>
 				</form>
 			</div>
 		</div>

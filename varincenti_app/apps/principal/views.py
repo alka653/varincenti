@@ -24,6 +24,7 @@ def contact(request):
 	title = 'Contactenos'
 	if request.method == 'POST':
 		form = ContactForm(request.POST)
+		form.user = request.user
 		if form.is_valid():
 			if form.save():
 				messages.add_message(request, 25, 'Gracias por contactarse con nosotros')

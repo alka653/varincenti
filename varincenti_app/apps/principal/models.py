@@ -7,3 +7,8 @@ class Contact(models.Model):
 	message = models.CharField(max_length = 500)
 	def __str__(self):
 		return self.asunto
+
+class State(models.Model):
+	name = models.CharField(max_length = 30)
+	def __str__(self):
+		return self.name
