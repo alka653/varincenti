@@ -2,6 +2,13 @@
 
 {% load staticfiles %}
 
+{% block content_head %}
+	<link rel="stylesheet" href="{% static 'css/jquery.timepicker.css' %}">
+	<link rel="stylesheet" href="{% static 'css/datepicker.css' %}">
+	<script src="{% static 'js/jquery.timepicker.min.js' %}"></script>
+	<script src="{% static 'js/datepicker.js' %}"></script>
+{% endblock content_head %}
+
 {% block content_nav %}
 	{% include 'elements/nav_extreme.html' %}
 {% endblock content_nav %}
@@ -32,6 +39,9 @@
 				<form action="{% url 'make_reservation' product.id %}" method="post">
 					{% csrf_token %}
 					{% for forms in form %}
+						<label class="text-right text-red-dark">
+							{{ forms.errors.as_text }}
+						</label>
 						<label>{{ forms.label }}</label>
 						{{ forms }}
 					{% endfor %}
@@ -47,3 +57,9 @@
 {% block content_footer %}
 	{% include 'elements/footer_extreme.html' %}
 {% endblock content_footer %}
+
+{% block content_script %}
+	$('#id_hour_reservation').timepicker({'timeFormat': 'H:i:s'});
+	$('#id_date_reservation').datepicker({'format': 'yyyy-mm-dd', 'autoclose': true});
+	$('#id_date_reservation').datepicker('setDate', new Date());
+{% endblock content_script %}

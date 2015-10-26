@@ -26,16 +26,11 @@ class Camp_product(models.Model):
 		return str(self.place_camp)
 
 class Reservation(models.Model):
-	"""
-	name_complete = models.CharField(max_length = 50)
-	number_telephone = models.CharField(max_length = 10, blank = True)
-	number_cellphone = models.CharField(max_length = 10)
-	email = models.EmailField()
-	"""
 	user = models.ForeignKey(User, blank = False, null = True)
 	date = models.DateTimeField(auto_now = False, default = datetime.now)
 	date_reservation = models.DateField(default = datetime.now)
+	hour_reservation = models.TimeField(blank = True, default = datetime.now)
 	camp_product = models.ForeignKey(Camp_product, blank = False, null = True)
 	state = models.ForeignKey(State, blank = False, null = True, default = 1)
 	def __str__(self):
-		return str(self.date_reservation)
+		return self.user, str(self.date_reservation), str(self.hour_reservation), self.camp_product

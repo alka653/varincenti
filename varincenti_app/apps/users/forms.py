@@ -29,20 +29,20 @@ class RegisterForm(forms.Form):
 	def clean_email(self):
 		email = self.cleaned_data.get('email')
 		if User.objects.filter(email = email).exists():
-			raise forms.ValidationError('El email '+email+' ya se ecuentra en uso, por favor ingrese uno nuevo.')
+			raise forms.ValidationError('El email '+email+' ya se ecuentra en uso.')
 		return email
 
 	def clean_number_telephone(self):
 		number_telephone = self.cleaned_data.get('number_telephone')
 		if number_telephone:
 			if ProfileUser.objects.filter(number_telephone = number_telephone).exists():
-				raise forms.ValidationError('El número '+str(number_telephone)+' ya se ecuentra en uso, por favor ingrese uno nuevo.')
+				raise forms.ValidationError('El número '+str(number_telephone)+' ya se ecuentra en uso.')
 		return number_telephone
 
 	def clean_number_cellphone(self):
 		number_cellphone = self.cleaned_data.get('number_cellphone')
 		if ProfileUser.objects.filter(number_cellphone = number_cellphone).exists():
-			raise forms.ValidationError('El número '+str(number_cellphone)+' ya se ecuentra en uso, por favor ingrese uno nuevo.')
+			raise forms.ValidationError('El número '+str(number_cellphone)+' ya se ecuentra en uso.')
 		return number_cellphone
 
 	def save(self):
