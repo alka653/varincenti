@@ -1,0 +1,59 @@
+{% extends 'layout/varincenti.html' %}
+
+{% load staticfiles %}
+
+{% block content_nav %}
+	{% include 'elements/nav_extreme.html' %}
+{% endblock content_nav %}
+
+{% block content_head %}
+	<link rel="stylesheet" href="{% static 'css/responsive-tables.css' %}">
+	<script src="{% static 'js/responsive-tables.js' %}"></script>
+{% endblock content_head %}
+
+{% load endless %}
+
+{% block content %}
+	<div class="head-title index">
+		<div class="row text-center">
+			<h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </h1>
+			<p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nunc finibus vitae urna sed pretium.</p>
+		</div>
+	</div>
+	<div class="back-white">
+		<div class="row text-center">
+			<h3>Hola {{ request.user.first_name }}, estas son tus reservas</h3>
+			{% paginate 5 reservations %}
+			<table class="responsive">
+				<thead class="text-center">
+					<tr>
+						<th>Extreme</th>
+						<th>Fecha</th>
+						<th>Hora</th>
+						<th>Estado</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+				{% for reservation in reservations %}
+					<tr>
+						<td>{{ reservation.camp_product.product_extreme }}</td>
+						<td>{{ reservation.date_reservation }}</td>
+						<td>{{ reservation.hour_reservation }}</td>
+						<td><span class="{{ reservation.state.class_tag }}">{{ reservation.state }}</span></td>
+						<td><a href="">Ver detalle</a></td>
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+			<div class="text-center">
+				{% get_pages %}
+				{{ pages }}
+			</div>
+		</div>
+	</div>
+{% endblock content %}
+
+{% block content_footer %}
+	{% include 'elements/footer_extreme.html' %}
+{% endblock content_footer %}

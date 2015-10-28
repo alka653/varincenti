@@ -10,5 +10,6 @@ class Contact(models.Model):
 
 class State(models.Model):
 	name = models.CharField(max_length = 30)
+	class_tag = models.CharField(max_length = 30)
 	def __str__(self):
 		return self.name

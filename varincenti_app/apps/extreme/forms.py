@@ -34,6 +34,7 @@ class ReservationForm(forms.ModelForm):
 		hour_reservation = datetime.strptime(str(self.cleaned_data.get('hour_reservation')), '%H:%M:%S')
 		hour_reservation_2 = hour_reservation + timedelta(minutes = 59)
 		hour_reservation = hour_reservation - timedelta(minutes = 59)
+		print(self.cleaned_data.get('hour_reservation'))
 		if Reservation.objects.filter(date_reservation = date_reservation, hour_reservation__range = [hour_reservation, hour_reservation_2]).exists():
 			raise forms.ValidationError(camp_product+' Fecha y hora de reserva ocupada.')
 		return hour_reservation

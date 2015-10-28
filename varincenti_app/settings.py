@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -40,6 +40,7 @@ INSTALLED_APPS = (
 	'varincenti_app.apps.extreme',
 	'varincenti_app.apps.users',
 	'varincenti_app.apps.gallery',
+	'endless_pagination',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -70,6 +71,10 @@ TEMPLATES = [
 		},
 	},
 ]
+
+TEMPLATE_CONTEXT_PROCESSORS += (
+	'django.core.context_processors.request',
+)
 
 WSGI_APPLICATION = 'varincenti_app.wsgi.application'
 

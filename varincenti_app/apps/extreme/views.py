@@ -33,3 +33,9 @@ def make_reservation(request, extreme_id):
 	else:
 		form = ReservationForm(product_extreme = product.id, instance = user)
 	return render(request, 'extreme/reservation.html', {'title': title, 'product': product, 'form': form})
+
+@login_required(login_url = '/Login')
+def reservations(request):
+	title = 'Mis Reservas'
+	reservations = Reservation.objects.filter(user = request.user)
+	return render(request, 'extreme/my-reservation.html', {'title': title, 'reservations': reservations})

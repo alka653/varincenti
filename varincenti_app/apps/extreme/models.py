@@ -23,7 +23,7 @@ class Camp_product(models.Model):
 	product_extreme = models.ForeignKey(Product_extreme, blank = False, null = True)
 	place_camp = models.ForeignKey(Place_camp, blank = False, null = True)
 	def __str__(self):
-		return str(self.place_camp)
+		return str(self.product_extreme)
 
 class Reservation(models.Model):
 	user = models.ForeignKey(User, blank = False, null = True)
@@ -33,4 +33,4 @@ class Reservation(models.Model):
 	camp_product = models.ForeignKey(Camp_product, blank = False, null = True)
 	state = models.ForeignKey(State, blank = False, null = True, default = 1)
 	def __str__(self):
-		return self.user, str(self.date_reservation), str(self.hour_reservation), self.camp_product
+		return str(self.user)
