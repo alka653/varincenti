@@ -22,34 +22,50 @@
 	</div>
 	<div class="back-white">
 		<div class="row text-center">
-			<h3>Hola {{ request.user.first_name }}, estas son tus reservas</h3>
-			{% paginate 5 reservations %}
-			<table class="responsive">
-				<thead class="text-center">
-					<tr>
-						<th>Extreme</th>
-						<th>Fecha</th>
-						<th>Hora</th>
-						<th>Estado</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-				{% for reservation in reservations %}
-					<tr>
-						<td>{{ reservation.camp_product.product_extreme }}</td>
-						<td>{{ reservation.date_reservation }}</td>
-						<td>{{ reservation.hour_reservation }}</td>
-						<td><span class="{{ reservation.state.class_tag }}">{{ reservation.state }}</span></td>
-						<td><a href="#">Ver detalle</a></td>
-					</tr>
-				{% endfor %}
-				</tbody>
-			</table>
-			<div class="text-center">
-				{% get_pages %}
-				{{ pages }}
-			</div>
+			{% for message in messages %}
+				<div class="text-left alert-box {{ message.tags }}">{{ message }}</div>
+			{% endfor %}
+			{% if not reservations %}
+				<h3>No tienes reservas realizadas en nuestros campos</h3>
+				<a href="{% url 'product_extreme' %}#product_list" class="button default radius">Haz una reserva</a>
+			{% else %}
+				<h3>Hola {{ request.user.first_name }}, estas son tus reservas</h3>
+				{% paginate 5 reservations %}
+				<table class="responsive">
+					<thead class="text-center">
+						<tr>
+							{% if request.user.is_superuser %}
+								<th>Usuario</th>
+							{% endif %}
+							<th>Extreme</th>
+							<th>Campo</th>
+							<th>Fecha</th>
+							<th>Hora</th>
+							<th>Estado</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+					{% for reservation in reservations %}
+						<tr>
+							{% if request.user.is_superuser %}
+								<td>{{ reservation.user.username }}</td>
+							{% endif %}
+							<td>{{ reservation.camp_product.product_extreme }}</td>
+							<td>{{ reservation.camp_product.place_camp }}</td>
+							<td>{{ reservation.date_reservation }}</td>
+							<td>{{ reservation.hour_reservation }}</td>
+							<td><span class="{{ reservation.state.class_tag }}">{{ reservation.state }}</span></td>
+							<td><a href="{% url 'detail_reservation' reservation.id %}">Ver detalle</a></td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+				<div class="text-center">
+					{% get_pages %}
+					{{ pages }}
+				</div>
+			{% endif %}
 		</div>
 	</div>
 {% endblock content %}

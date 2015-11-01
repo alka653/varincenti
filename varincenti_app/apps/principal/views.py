@@ -34,3 +34,7 @@ def contact(request):
 	else:
 		form = ContactForm()
 	return render(request, 'varincenti/contact.html', {'form': form, 'title': title})
+
+def page_404(request):
+	title = 'No encontrado'
+	return render(request, 'varincenti/error/404.html', {'title': title, 'template': ' ', 'body': 'blue-light'})

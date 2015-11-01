@@ -1,0 +1,48 @@
+{% extends 'layout/varincenti.html' %}
+
+{% load staticfiles %}
+
+{% block content_nav %}
+	{% include 'elements/nav_extreme.html' %}
+{% endblock content_nav %}
+
+{% block content %}
+	<div class="head-title index">
+		<div class="row text-center">
+			<h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </h1>
+			<p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nunc finibus vitae urna sed pretium.</p>
+		</div>
+	</div>
+	<div class="back-white">
+		<div class="row">
+			<div class="small-12 large-3 columns text-center">
+				<img src="{% static reservation.camp_product.product_extreme.photo %}" class="img-square" style="width: 200px; height: 200px; margin-bottom: 10px;">
+			</div>
+			<div class="small-12 large-9 columns">
+				<h2>{{ reservation.camp_product.product_extreme.name }}</h2>
+				<ul class="no-bullet">
+					<li><strong>Campo:</strong> {{ reservation.camp_product.place_camp }}</li>
+					<li><strong>Dirección:</strong> {{ reservation.camp_product.place_camp.direction }}</li>
+					<li><strong>Fecha y Hora:</strong> {{ reservation.date_reservation }} - {{ reservation.hour_reservation }}</li>
+				</ul>
+				{% if reservation.state.id == 1 %}
+					<a href="{% url 'cancel_reservation' reservation.id %}" class="button alert radius">Cancelar Reserva</a>
+				{% elif reservation.state.id == 2 %}
+					<h3 class='{{ reservation.state.class_tag }}'>En proceso</h3>
+				{% elif reservation.state.id == 3 %}
+					<h3 class='{{ reservation.state.class_tag }}'>La reserva ha sido cancelada</h3>
+				{% elif reservation.state.id == 4 %}
+					<h3 class='{{ reservation.state.class_tag }}'>Gracias por jugar</h3>
+				{% endif %}
+			</div>
+			<div class="large-12 columns">
+				<h3 class="text-center">Reglamentación de {{ reservation.camp_product.product_extreme.name }}</h3>
+				<p>{% autoescape off %}{{ reservation.camp_product.product_extreme.conditions }}{% endautoescape %}</p>
+			</div>
+		</div>
+	</div>
+{% endblock content %}
+
+{% block content_footer %}
+	{% include 'elements/footer_extreme.html' %}
+{% endblock content_footer %}
