@@ -1,13 +1,14 @@
 # -*- encoding: utf-8 -*-
 from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponseRedirect, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from varincenti_app.apps.principal.backends import *
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib import messages
 from .models import *
 from .forms import *
+import json
 
 @check_auth
 def authenticate_user(request):
@@ -47,3 +48,19 @@ def register_user(request):
 	else:
 		form = RegisterForm()
 	return render(request, 'users/register.html', {'form': form, 'title': title, 'template': ' '})
+
+def find_player(request):
+	if request.is_ajax:
+		word = request.GET.get('term','')
+		users = User.objects.filter(username__icontains = word)
+		results = []
+		for user in users:
+			response = {}
+			response['label'] = user.username+' - '+user.first_name+' '+user.last_name
+			response['value'] = user.username
+			results.append(response)
+		data_json = json.dumps(results)
+	else:
+		data_json = 'fail'
+	mimetype = "application/json"
+	return HttpResponse(data_json, mimetype)

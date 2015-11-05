@@ -30,9 +30,6 @@
 			</div>
 			<div class="small-12 large-8 columns">
 				<h3>Hola {{ request.user.first_name }}, haz una reserva en {{ product.name }}</h3>
-				<div class="row">
-					{{ data }}
-				</div>
 				<form action="{% url 'make_reservation' product.id %}" method="post">
 					{% csrf_token %}
 					{% for forms in form %}
@@ -43,7 +40,7 @@
 						{{ forms }}
 					{% endfor %}
 					<div class="text-center">
-						<input type="submit" value="Reservar" class="button success radius" />
+						<input type="submit" value="Continuar" class="button success radius" />
 					</div>
 				</form>
 			</div>

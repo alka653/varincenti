@@ -2,6 +2,7 @@ from django.db import models
 from datetime import datetime
 from django.contrib.auth.models import User
 from varincenti_app.apps.principal.models import State
+from varincenti_app.apps.users.models import ProfileUser
 
 class Product_extreme(models.Model):
 	name = models.CharField(max_length = 50)
@@ -17,7 +18,7 @@ class Place_camp(models.Model):
 	direction = models.CharField(max_length = 100)
 	description = models.CharField(max_length = 200, blank = True)
 	def __str__(self):
-		return self.name
+		return self.name+' - '+self.direction
 
 class Camp_product(models.Model):
 	product_extreme = models.ForeignKey(Product_extreme, blank = False, null = True)
@@ -33,4 +34,10 @@ class Reservation(models.Model):
 	camp_product = models.ForeignKey(Camp_product, blank = False, null = True)
 	state = models.ForeignKey(State, blank = False, null = True, default = 1)
 	def __str__(self):
-		return str(self.user)
+		return str(self.pk)
+
+class Reservation_player(models.Model):
+	reservation = models.ForeignKey(Reservation, blank = False, null = True)
+	player_user = models.ForeignKey(User, blank = False, null = True)
+	def __str__(self):
+		return str(self.reservation)

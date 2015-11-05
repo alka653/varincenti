@@ -2,6 +2,7 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 from django.contrib import messages
 from django.shortcuts import render
 from .models import *
@@ -21,16 +22,50 @@ def product_extreme(request):
 def make_reservation(request, extreme_id):
 	title = 'Reservaciones'
 	product = Product_extreme.objects.get(pk = extreme_id)
-	user = Reservation(user = request.user)
 	if request.method == 'POST':
-		form = ReservationForm(request.POST, instance = user, product_extreme = product.id)
+		form = ReservationForm(request.POST, instance = request.user, product_extreme = product.id)
+		if form.is_valid():
+			save_form = form.save()
+			messages.add_message(request, 25, 'Reserva Exitosa, continua ingresando los jugadores.')
+			return HttpResponseRedirect(reverse('make_reservation_player', kwargs = {'reservation_id': save_form.id}))
+	else:
+		form = ReservationForm(product_extreme = product.id, instance = request.user)
+	return render(request, 'extreme/reservation.html', {'title': title, 'product': product, 'form': form})
+
+@login_required(login_url = '/Login')
+def make_reservation_player(request, reservation_id):
+	title = 'Agrega a tu equipo'
+	players = Reservation_player.objects.filter(reservation = reservation_id)
+	reservation_data = Reservation.objects.get(pk = reservation_id)
+	reservation = Reservation_player(reservation = reservation_data)
+	if request.method == 'POST':
+		user = User.objects.get(username = request.POST['player_user'])
+		request.POST = request.POST.copy()
+		request.POST['player_user'] = user.pk
+		form = ReservationPlayerForm(request.POST, instance = reservation)
 		if form.is_valid():
 			form.save()
-			messages.add_message(request, 25, 'Exito en la Reserva, estaremos en contácto contigo.')
-			return HttpResponseRedirect(reverse('make_reservation', kwargs = {'extreme_id': extreme_id}))
+			messages.add_message(request, 25, 'Usuario agregado exitosamente.')
+			return HttpResponseRedirect(reverse('make_reservation_player', kwargs = {'reservation_id': reservation_id}))
+		else:
+			request.POST['player_user'] = user.username
+			messages.add_message(request, 40, 'Ha ocurrido un error.')
+		print(request.POST['player_user'])
 	else:
-		form = ReservationForm(product_extreme = product.id, instance = user)
-	return render(request, 'extreme/reservation.html', {'title': title, 'product': product, 'form': form})
+		form = ReservationPlayerForm(instance = reservation)
+	return render(request, 'extreme/reservation_player.html', {'title': title, 'players': players, 'form': form, 'reservation': reservation_data})
+
+@login_required(login_url = '/Login')
+def delete_reservation_player(request, reservation_player_id):
+	reservation_player = Reservation_player.objects.get(pk = reservation_player_id)
+	reservation_id = reservation_player.reservation
+	user = reservation_player.reservation.user
+	if user == request.user or request.user.is_superuser:
+		reservation_player.delete()
+		messages.add_message(request, 25, 'Jugador eliminado exitosamente.')
+		return HttpResponseRedirect(reverse('make_reservation_player', kwargs = {'reservation_id': reservation_id}))
+	else:
+		return HttpResponseRedirect('/404')
 
 @login_required(login_url = '/Login')
 def reservations(request):
@@ -55,7 +90,6 @@ def detail_reservation(request, reservation_id):
 
 @login_required(login_url = '/Login')
 def cancel_reservation(request, reservation_id):
-	title = 'Cancelacion de la reserva'
 	reservation = Reservation.objects.get(pk = reservation_id)
 	if reservation.user == request.user or request.user.is_superuser:
 		state_cancel = State.objects.get(pk = 3)

@@ -1,0 +1,94 @@
+{% extends 'layout/varincenti.html' %}
+
+{% load staticfiles %}
+
+{% block content_head %}
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+{% endblock content_head %}
+
+{% block content_nav %}
+	{% include 'elements/nav_extreme.html' %}
+{% endblock content_nav %}
+
+{% block content %}
+	<div class="head-title index">
+		<div class="row text-center">
+			<h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </h1>
+			<p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nunc finibus vitae urna sed pretium.</p>
+		</div>
+	</div>
+	<div class="back-white">
+		<div class="row">
+			{% for message in messages %}
+				<div class="text-left alert-box {{ message.tags }}">{{ message }}</div>
+			{% endfor %}
+			<div class="small-12 large-4 columns">
+				<div class="text-center">
+					<img src="{% static reservation.camp_product.product_extreme.photo %}" class="img-square" style="width: 200px; height: 200px; margin-bottom: 10px;">
+					<h3>{{ reservation.camp_product.product_extreme.name }}</h3>
+					<p>{{ reservation.camp_product.product_extreme.description }}</p>
+				</div>
+			</div>
+			<div class="small-12 large-8 columns">
+				<h3>Hola {{ request.user.first_name }}, agrega a tus amigos</h3>
+				{% if players.count < 20 %} 
+					<form action="{% url 'make_reservation_player' reservation.id %}" method="post">
+						{% csrf_token %}
+						<label class="text-right text-red-dark">
+							{{ form.player_user.errors.as_text }}
+							{{ form.non_field_errors }}
+						</label>
+						<div class="row">
+							<div class="large-12 columns">
+								<div class="row collapse">
+									<div class="small-10 columns">
+										{{ form.player_user }}
+									</div>
+									<div class="small-2 columns">
+										<input type="submit" value="Agregar" class="button success postfix"/>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				{% endif %}
+				<ul class="small-block-grid-2 medium-block-grid-4">
+					<p>
+						{% if players.count == 1 %} 
+							Tienes 19 cupos disponibles, agrega a tus amigos.
+						{% elif players.count <= 19 %}
+							Tienes {{ players.count }} Jugadores, aún te quedan cupos.
+						{% else %}
+							No tienes cupos.
+						{% endif %}
+					</p>
+					{% for player in players %}
+						<li class="text-center">
+							<img src="{% static player.player_user.profileuser.photo %}" class="img-circle" style="width: 70px; height: 70px;">
+							<p>
+								{{ player.player_user.first_name }} 
+								{% if request.user ==  player.player_user %}
+									<strong>(yo)</strong>
+								{% else %}
+									<a href="{% url 'delete_reservation_player' player.pk %}" class="text-red" onclick="return confirm('¿Desea eliminar el usuario?')">(Eliminar)</a>
+								{% endif %}
+							</p>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+{% endblock content %}
+
+{% block content_footer %}
+	{% include 'elements/footer_extreme.html' %}
+{% endblock content_footer %}
+
+{% block content_script %}
+	$("#id_player_user").autocomplete({
+		minLength:3,
+		source: "{% url 'find_player' %}"
+	});
+{% endblock content_script %}

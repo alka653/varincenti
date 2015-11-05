@@ -25,6 +25,7 @@
 					<li><strong>Dirección:</strong> {{ reservation.camp_product.place_camp.direction }}</li>
 					<li><strong>Fecha y Hora:</strong> {{ reservation.date_reservation }} - {{ reservation.hour_reservation }}</li>
 				</ul>
+				<a href="{% url 'make_reservation_player' reservation.id %}" class="button info radius">Ver jugadores</a>
 				{% if reservation.state.id == 1 %}
 					<a href="{% url 'cancel_reservation' reservation.id %}" class="button alert radius">Cancelar Reserva</a>
 				{% elif reservation.state.id == 2 %}
