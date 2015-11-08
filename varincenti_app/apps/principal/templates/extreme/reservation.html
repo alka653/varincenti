@@ -44,6 +44,12 @@
 					</div>
 				</form>
 			</div>
+			<div class="small-12 large-6 columns">
+				<div class="map-camp text-center"></div>
+			</div>
+			<div class="small-12 large-6 columns">
+				<div class="photo-camp text-center"></div>
+			</div>
 		</div>
 	</div>
 {% endblock content %}
@@ -53,7 +59,29 @@
 {% endblock content_footer %}
 
 {% block content_script %}
-	$('#id_hour_reservation').timepicker({'timeFormat': 'H:i:s'});
+	$('#id_hour_reservation').val('09:00');
+	$('#id_hour_reservation').timepicker({
+		minTime: '09:00', 
+		maxTime: '17:00',
+		timeFormat: 'H:i',
+		default: '09:00',
+		step: '60'
+	});
 	$('#id_date_reservation').datepicker({'format': 'yyyy-mm-dd', 'autoclose': true});
 	$('#id_date_reservation').datepicker('setDate', new Date());
+	$('#id_camp_product').change(function(){
+		$.ajax({
+			url: '{% url 'search_camp' %}',
+			type: 'POST',
+			data: {id: $(this).val()},
+			success: function(json){
+				$('.map-camp').html('<iframe src="'+json.ubication+'" width="500" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>');
+				$('.photo-camp').html('<img src="/static/'+json.photo+'" alt="'+json.name+'" width="400px" height="auto">');
+				console.log(json.photo);
+			},
+			error: function(json){
+				$('.map-camp').html('<h3>'+json.error+'</h3>')
+			}
+		});
+	});
 {% endblock content_script %}

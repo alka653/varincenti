@@ -67,6 +67,9 @@ class ReservationPlayerForm(forms.ModelForm):
 		reservation = Reservation.objects.get(pk = str(self.instance))
 		player_user = self.cleaned_data.get('player_user')
 		user = User.objects.get(username = player_user)
-		if Reservation_player.objects.filter(reservation = reservation, player_user = user).exists():
-			raise forms.ValidationError('El usuario '+user.username+' ya se encuentra agregado.')
+		if user.profileuser.state.id == 7:
+			raise forms.ValidationError('El usuario '+user.username+' se encuentra en estado '+str(user.profileuser.state))
+		else:
+			if Reservation_player.objects.filter(reservation = reservation, player_user = user).exists():
+				raise forms.ValidationError('El usuario '+user.username+' ya se encuentra agregado.')
 		return player_user

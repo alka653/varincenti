@@ -1,12 +1,15 @@
 # -*- encoding: utf-8 -*-
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.shortcuts import render
+from datetime import datetime, timedelta
 from .models import *
 from .forms import *
+import json
 
 def home_extreme(request):
 	title = 'Extreme Entretairment'
@@ -92,10 +95,28 @@ def detail_reservation(request, reservation_id):
 def cancel_reservation(request, reservation_id):
 	reservation = Reservation.objects.get(pk = reservation_id)
 	if reservation.user == request.user or request.user.is_superuser:
-		state_cancel = State.objects.get(pk = 3)
+		state_cancel = State.objects.get(pk = 4)
 		reservation.state = state_cancel
-		reservation.save(update_fields = ['state'])
-		messages.add_message(request, 25, 'Exito al cancelar la reserva.')
+		date_now = datetime.now().strftime('%Y-%m-%d')
+		date_reser = reservation.date_reservation - timedelta(days = 3)
+		print(date_now)
+		if str(date_now) >= str(date_reser):
+			messages.add_message(request, 40, 'Ya no puedes cancelar la reserva.')
+		else:
+			reservation.save(update_fields = ['state'])
+			messages.add_message(request, 25, 'Exito al cancelar la reserva.')
 	else:
 		return HttpResponseRedirect('/404')
 	return HttpResponseRedirect(reverse('reservations'))
+
+@csrf_exempt
+def search_camp(request):
+	response = {}
+	if request.method == 'POST':
+		camp_product = Camp_product.objects.get(pk = request.POST.get('id'))
+		response['ubication'] = str(camp_product.place_camp.ubication)
+		response['photo'] = str(camp_product.place_camp.photo)
+		response['name'] = str(camp_product.place_camp.name)
+	else:
+		response['error'] = 'Ha ocurrido un error'
+	return HttpResponse(json.dumps(response), content_type = 'application/json')
