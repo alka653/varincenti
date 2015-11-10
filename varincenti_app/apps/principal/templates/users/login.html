@@ -39,6 +39,7 @@
 			</form>
 			<div class="row text-center">
 				<p>No tienes cuenta? <a href="{% url 'register' %}">Registrate</a></p>
+				<a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">Enter with Facebook</a>
 			</div>
 		</div>
 		<div class="login-footer text-center">

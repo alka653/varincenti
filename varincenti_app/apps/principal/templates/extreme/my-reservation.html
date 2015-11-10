@@ -29,12 +29,13 @@
 				<h3>No tienes reservas realizadas en nuestros campos</h3>
 				<a href="{% url 'product_extreme' %}#product_list" class="button default radius">Haz una reserva</a>
 			{% else %}
-				<h3>Hola {{ request.user.first_name }}, estas son tus reservas</h3>
+				<h3>Hola {{ request.user.first_name }}, estas son las reservas realizadas.</h3>
 				{% paginate 5 reservations %}
 				<table class="responsive">
 					<thead class="text-center">
 						<tr>
 							{% if request.user.is_superuser %}
+								<th>Eliminar</th>
 								<th>Usuario</th>
 							{% endif %}
 							<th>Extreme</th>
@@ -49,6 +50,11 @@
 					{% for reservation in reservations %}
 						<tr>
 							{% if request.user.is_superuser %}
+								<td class="text-center">
+									<a href="{% url 'delete_reservation' reservation.id %}">
+										<span class="fi-x"></span>
+									</a>
+								</td>
 								<td>{{ reservation.user.username }}</td>
 							{% endif %}
 							<td>{{ reservation.camp_product.product_extreme }}</td>

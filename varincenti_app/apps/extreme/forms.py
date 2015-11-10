@@ -32,7 +32,6 @@ class ReservationForm(forms.ModelForm):
 
 	def save(self):
 		user = User.objects.get(username = self.instance)
-		print(user)
 		date_reservation = self.cleaned_data.get('date_reservation')
 		hour_reservation = self.cleaned_data.get('hour_reservation')
 		camp_product = self.cleaned_data.get('camp_product')
@@ -41,6 +40,7 @@ class ReservationForm(forms.ModelForm):
 		reservation_player = Reservation_player(reservation = reservation, player_user = user)
 		reservation_player.save()
 		return reservation
+
 	"""
 	def clean_camp_product(self):
 		camp_product = self.cleaned_data.get('camp_product')

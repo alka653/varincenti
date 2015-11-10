@@ -41,6 +41,7 @@ INSTALLED_APPS = (
 	'varincenti_app.apps.users',
 	'varincenti_app.apps.gallery',
 	'endless_pagination',
+	'social.apps.django_app.default',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -67,12 +68,47 @@ TEMPLATES = [
 				'django.template.context_processors.request',
 				'django.contrib.auth.context_processors.auth',
 				'django.contrib.messages.context_processors.messages',
+				'social.apps.django_app.context_processors.backends',
+				'social.apps.django_app.context_processors.login_redirect',
 			],
 		},
 	},
 ]
 
+AUTH_PROFILE_MODULE = 'varincenti_app.apps.users.ProfileUser'
+
+AUTHENTICATION_BACKENDS = (
+	'social.backends.facebook.FacebookOAuth2',
+	'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+	'fields': 'id, name, email',
+}
+
+SOCIAL_AUTH_FACEBOOK_KEY = '770411666438350'
+SOCIAL_AUTH_FACEBOOK_SECRET = 'c983883dbea83bb64ff0861bf41e0bc4'
+
+SOCIAL_AUTH_PIPELINE = (
+	'social.pipeline.social_auth.social_details',
+	'social.pipeline.social_auth.social_uid',
+	'social.pipeline.social_auth.auth_allowed',
+	'social.pipeline.social_auth.social_user',
+	'social.pipeline.user.get_username',
+	'social.pipeline.mail.mail_validation',
+	'social.pipeline.user.create_user',
+	'social.pipeline.social_auth.associate_user',
+	'social.pipeline.social_auth.load_extra_data',
+	'social.pipeline.user.user_details',
+	'varincenti_app.apps.users.pipeline.get_profile_picture',
+)
+
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/"
+
 TEMPLATE_CONTEXT_PROCESSORS += (
+	"django.contrib.auth.context_processors.auth",
 	'django.core.context_processors.request',
 )
 

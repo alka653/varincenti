@@ -32,7 +32,7 @@
 			</div>
 			<div class="small-12 large-8 columns">
 				<h3>Hola {{ request.user.first_name }}, agrega a tus amigos</h3>
-				{% if players.count < 20 %} 
+				{% if reservation.state.id < 4 and players.count < 20 %} 
 					<form action="{% url 'make_reservation_player' reservation.id %}" method="post">
 						{% csrf_token %}
 						<label class="text-right text-red-dark">

@@ -6,11 +6,9 @@ def premissions_check(view):
 	def check(request, *args, **kwargs):
 		title = None
 		if request.user.groups.filter(name = 'Administrator').exists():
-			context = {'title': 'Bienvenido'}
+			return view(request, *args, **kwargs)
 		else:
-			context = {'title': 'Hola'}
-		args = args + (context, )
-		return view(request, *args, **kwargs)
+			return HttpResponseRedirect('/Marcas/ExtremeEntretairment')
 	return check
 
 def check_auth(view):

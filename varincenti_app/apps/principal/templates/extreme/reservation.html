@@ -22,6 +22,9 @@
 	</div>
 	<div class="back-white">
 		<div class="row">
+			{% for message in messages %}
+				<div class="text-left alert-box {{ message.tags }}">{{ message }}</div>
+			{% endfor %}
 			<div class="small-12 large-4 columns">
 				<div class="text-center">
 					<img src="{% static product.photo %}" class="img-square" style="width: 200px; height: 200px; margin-bottom: 10px;">
@@ -70,18 +73,22 @@
 	$('#id_date_reservation').datepicker({'format': 'yyyy-mm-dd', 'autoclose': true});
 	$('#id_date_reservation').datepicker('setDate', new Date());
 	$('#id_camp_product').change(function(){
-		$.ajax({
-			url: '{% url 'search_camp' %}',
-			type: 'POST',
-			data: {id: $(this).val()},
-			success: function(json){
-				$('.map-camp').html('<iframe src="'+json.ubication+'" width="500" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>');
-				$('.photo-camp').html('<img src="/static/'+json.photo+'" alt="'+json.name+'" width="400px" height="auto">');
-				console.log(json.photo);
-			},
-			error: function(json){
-				$('.map-camp').html('<h3>'+json.error+'</h3>')
-			}
-		});
+		if($('#id_camp_product').val() != ''){
+			$.ajax({
+				url: '{% url 'search_camp' %}',
+				type: 'POST',
+				data: {id: $(this).val()},
+				success: function(json){
+					$('.map-camp').html('<iframe src="'+json.ubication+'" width="500" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>');
+					$('.photo-camp').html('<img src="/static/'+json.photo+'" alt="'+json.name+'" width="400px" height="auto">');
+					console.log(json.photo);
+				},
+				error: function(json){
+					$('.map-camp').html('<h3>'+json.error+'</h3>')
+				}
+			});
+		}else{
+			alert('Seleccione un valor');
+		}
 	});
 {% endblock content_script %}

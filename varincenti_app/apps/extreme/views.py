@@ -1,12 +1,13 @@
 # -*- encoding: utf-8 -*-
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from varincenti_app.apps.principal.backends import *
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from datetime import datetime, timedelta
 from django.contrib import messages
 from django.shortcuts import render
-from datetime import datetime, timedelta
 from .models import *
 from .forms import *
 import json
@@ -26,11 +27,16 @@ def make_reservation(request, extreme_id):
 	title = 'Reservaciones'
 	product = Product_extreme.objects.get(pk = extreme_id)
 	if request.method == 'POST':
-		form = ReservationForm(request.POST, instance = request.user, product_extreme = product.id)
-		if form.is_valid():
-			save_form = form.save()
-			messages.add_message(request, 25, 'Reserva Exitosa, continua ingresando los jugadores.')
-			return HttpResponseRedirect(reverse('make_reservation_player', kwargs = {'reservation_id': save_form.id}))
+		if request.user.profileuser.state.id != 7:
+			form = ReservationForm(request.POST, instance = request.user, product_extreme = product.id)
+			if form.is_valid():
+				save_form = form.save()
+				messages.add_message(request, 25, 'Reserva Exitosa, continua ingresando los jugadores.')
+				return HttpResponseRedirect(reverse('make_reservation_player', kwargs = {'reservation_id': save_form.id}))
+		else:
+			form = ReservationForm(product_extreme = product.id, instance = request.user)
+			messages.add_message(request, 40, 'No puedes realizar la reserva, tienes multa.')
+			return render(request, 'extreme/reservation.html', {'title': title, 'product': product, 'form': form})
 	else:
 		form = ReservationForm(product_extreme = product.id, instance = request.user)
 	return render(request, 'extreme/reservation.html', {'title': title, 'product': product, 'form': form})
@@ -120,3 +126,10 @@ def search_camp(request):
 	else:
 		response['error'] = 'Ha ocurrido un error'
 	return HttpResponse(json.dumps(response), content_type = 'application/json')
+
+@premissions_check
+def delete_reservation(request, reservation_id):
+	reservation = Reservation.objects.get(pk = reservation_id)
+	reservation.delete()
+	messages.add_message(request, 25, 'Reserva eliminada exitosamente.')
+	return HttpResponseRedirect(reverse('reservations'))
