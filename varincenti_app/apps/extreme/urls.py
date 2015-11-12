@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, url
 
 urlpatterns = patterns('varincenti_app.apps.extreme.views',
+	url(r'^invite/$', 'invite', name = 'invite'),
 	url(r'^$', 'home_extreme', name = 'home_extreme'),
 	url(r'^search-camp/', 'search_camp', name = 'search_camp'),
 	url(r'^Productos/', 'product_extreme', name = 'product_extreme'),

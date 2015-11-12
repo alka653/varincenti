@@ -79,10 +79,11 @@ AUTH_PROFILE_MODULE = 'varincenti_app.apps.users.ProfileUser'
 
 AUTHENTICATION_BACKENDS = (
 	'social.backends.facebook.FacebookOAuth2',
+	'varincenti_app.apps.users.backends.FacebookOAuth2',
 	'django.contrib.auth.backends.ModelBackend',
 )
 
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_friends']
 
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
 	'fields': 'id, name, email',

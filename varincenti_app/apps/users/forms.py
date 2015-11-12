@@ -18,6 +18,7 @@ class RegisterForm(forms.Form):
 	number_cellphone = forms.CharField(max_length = 10, label = 'Número Celular', widget = forms.TextInput(attrs = {'required': True, 'placeholder': 'Digite su número de contácto celular'}))
 	username = forms.CharField(label = 'Usuario', widget = forms.TextInput(attrs = {'required': True, 'placeholder': 'Ingrese un usuario'}))
 	password = forms.CharField(label = 'Contraseña', widget = forms.PasswordInput(attrs = {'required': True}))
+	birthdate = forms.CharField(label = 'Fecha de Nacimiento')
 	photo = forms.ImageField(label = 'Foto', required = False)
 
 	def clean_username(self):
@@ -49,6 +50,7 @@ class RegisterForm(forms.Form):
 		first_name = self.cleaned_data.get('first_name')
 		last_name = self.cleaned_data.get('last_name')
 		email = self.cleaned_data.get('email')
+		birthdate = self.cleaned_data.get('birthdate')
 		number_telephone = self.cleaned_data.get('number_telephone')
 		number_cellphone = self.cleaned_data.get('number_cellphone')
 		username = self.cleaned_data.get('username')
@@ -58,5 +60,5 @@ class RegisterForm(forms.Form):
 		user.first_name = first_name
 		user.last_name = last_name
 		user.save()
-		profile = ProfileUser(user = user, photo = photo, number_telephone = number_telephone, number_cellphone = number_cellphone)
+		profile = ProfileUser(user = user, photo = photo, number_telephone = number_telephone, number_cellphone = number_cellphone, birthdate = birthdate)
 		profile.save()

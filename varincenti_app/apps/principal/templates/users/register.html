@@ -1,5 +1,12 @@
 {% extends 'layout/varincenti.html' %}
 
+{% load staticfiles %}
+
+{% block content_head %}
+	<link rel="stylesheet" href="{% static 'css/datepicker.css' %}">
+	<script src="{% static 'js/datepicker.js' %}"></script>
+{% endblock content_head %}
+
 {% block content_2 %}
 
 <div class="container-init">
@@ -48,3 +55,8 @@
 </div>
 
 {% endblock content_2 %}
+
+{% block content_script %}
+	$('#id_birthdate').datepicker({'format': 'yyyy-mm-dd', 'autoclose': true});
+	$('#id_birthdate').datepicker('setDate', new Date());
+{% endblock content_script %}

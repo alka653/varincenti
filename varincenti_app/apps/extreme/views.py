@@ -8,6 +8,8 @@ from django.contrib.auth.models import User
 from datetime import datetime, timedelta
 from django.contrib import messages
 from django.shortcuts import render
+from django.conf import settings
+from requests import request
 from .models import *
 from .forms import *
 import json
@@ -21,6 +23,26 @@ def product_extreme(request):
 	product = Product_extreme.objects.all()
 	title = 'Nuestros productos'
 	return render(request, 'extreme/product.html', {'title': title, 'products': product, 'row': 0})
+
+@login_required(login_url = '/Login')
+def invite(request):
+	if has_friends_permission(request.user):
+		friends = get_friends(request.user)
+	else:
+		friends = []
+	return render(request, 'extreme/invite.html', {'friends': friends, 'SOCIAL_AUTH_FACEBOOK_KEY': settings.SOCIAL_AUTH_FACEBOOK_KEY})
+
+def has_friends_permission(user):
+	facebook = user.social_auth.get(provider='facebook')
+	url = 'https://graph.facebook.com/me/permissions'
+	permissions = request('GET', url, params={'access_token': facebook.extra_data['access_token']}).json()
+	return permissions['data'][0].get('user_friends') or False
+
+def get_friends(user):
+	facebook = user.social_auth.get(provider='facebook')
+	url = 'https://graph.facebook.com/me/friends'.format(facebook.uid)
+	friends = request('GET', url, params={'access_token': facebook.extra_data['access_token']}).json()
+	return friends['data']
 
 @login_required(login_url = '/Login')
 def make_reservation(request, extreme_id):
