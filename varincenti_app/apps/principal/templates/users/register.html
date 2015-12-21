@@ -16,40 +16,62 @@
 				<div class="alert-box {{ message.tags }}">{{ message }}</div>
 			{% endfor %}
 		</div>
-		<div class="box green-light">
-			<h3>ExtremeEntretairment <small>Varincenti</small></h3>
+		<div class="box dark text-center">
+			<h4>Registrate</h4>
 		</div>
 		<div class="card-login">
-			<form action="{% url 'register' %}" method="post" enctype="multipart/form-data">
+			<form action="{% url 'register' %}" method="post" class="form-access" enctype="multipart/form-data">
 				{% csrf_token %}
-				{% for forms in form %}
-					<div class="small-12 medium-6 columns">
-						<label class="text-right text-red-dark">
-							{{ forms.errors.as_text }}
-						</label>
-						<div class="row">
-							<div class="medium-12 columns">
-								<label>
-									{{ forms.label }}
-								</label>
-							</div>
-							<div class="medium-12 columns">
-								{{ forms }}
+				<div class="row">
+					{% for forms in form %}
+						<div class="small-12 large-6 columns">
+							<div class="row">
+								<div class="large-12 columns">
+									<label>
+										{{ forms.label }}
+									</label>
+								</div>
+								<div class="large-12 columns">
+									{{ forms }}
+								</div>
+								<p class="text-right text-red-dark">
+									{{ forms.errors.as_text }}
+								</p>
 							</div>
 						</div>
+					{% endfor %}
+				</div>
+				<div class="row">
+					<div class="text-center">
+						<input type="submit" value="Registrarme" id="access" class="button success radius" />
 					</div>
-				{% endfor %}
-				<div class="text-center">
-					<input type="submit" value="Registrarme" class="button success radius" />
-					<a href="{% url 'home_extreme' %}" class="button default radius">Volver</a>
 				</div>
 			</form>
+			<br>
 			<div class="row text-center">
-				<p>Ya tienes una cuenta? <a href="{% url 'login' %}">Ingresa</a></p>
+				<div class="large-6 columns">
+					<a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">
+						<div class="social fb">
+							<i class="fi-social-facebook"></i> Registrarme con Facebook
+						</div>
+					</a>
+				</div>
+				<div class="large-6 columns">
+					<a href="#">
+						<div class="social tw">
+							<i class="fi-social-twitter"></i> Registrarme con Twitter
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="box dark txt-center">
+			<div class="row text-center">
+				<p>¿Ya tienes una cuenta? <a href="{% url 'login' %}">Ingresa</a></p>
 			</div>
 		</div>
 		<div class="login-footer text-center">
-			<p>&copy; 2015 Derechos Reservados. <a href="{% url 'home' %}">Varincenti</a> &reg;</p>
+			<p>&copy; 2015 Derechos Reservados. <a href="#">Varincenti</a> &reg;</p>
 		</div>
 	</div>
 </div>

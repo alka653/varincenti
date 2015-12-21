@@ -28,6 +28,16 @@
 					<img src="{% static reservation.camp_product.product_extreme.photo %}" class="img-square" style="width: 200px; height: 200px; margin-bottom: 10px;">
 					<h3>{{ reservation.camp_product.product_extreme.name }}</h3>
 					<p>{{ reservation.camp_product.product_extreme.description }}</p>
+					<a href="#">
+						<div class="social fb">
+							<i class="fi-social-facebook"></i> Invitar amigos de Facebook
+						</div>
+					</a>
+					<a href="#">
+						<div class="social green-light">
+							<i class="fi-social-500px"></i> Enviar invitación por Email
+						</div>
+					</a>
 				</div>
 			</div>
 			<div class="small-12 large-8 columns">
@@ -42,11 +52,9 @@
 						<div class="row">
 							<div class="large-12 columns">
 								<div class="row collapse">
-									<div class="small-10 columns">
+									<div class="text-center">
 										{{ form.player_user }}
-									</div>
-									<div class="small-2 columns">
-										<input type="submit" value="Agregar" class="button success postfix"/>
+										<input type="submit" value="Agregar" class="button success"/>
 									</div>
 								</div>
 							</div>
@@ -56,11 +64,11 @@
 				<ul class="small-block-grid-2 medium-block-grid-4">
 					<p>
 						{% if players.count == 1 %} 
-							Tienes 19 cupos disponibles, agrega a tus amigos.
+							Hay 19 cupos disponibles, agrega a tus amigos.
 						{% elif players.count <= 19 %}
-							Tienes {{ players.count }} Jugadores, aún te quedan cupos.
+							Hay {{ players.count }} Jugadores, aún te quedan cupos.
 						{% else %}
-							No tienes cupos.
+							No hay cupos.
 						{% endif %}
 					</p>
 					{% for player in players %}
@@ -77,9 +85,6 @@
 						</li>
 					{% endfor %}
 				</ul>
-			</div>
-			<div class="text-center">
-				<a href="#">Envia una invitación para que tu amigo se registre.</a>
 			</div>
 		</div>
 	</div>

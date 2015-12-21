@@ -1,0 +1,119 @@
+{% load staticfiles %}
+
+<div class="row">
+	<div class="close">
+		<a href="#" class="close-content">
+			<h4>
+				<i class="fi-x text-red"></i>
+			</h4>
+		</a>
+	</div>
+	<h3>{{ title }}</h3>
+	<form action="{% url 'new_extreme' %}" id="form-extreme" method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+		<div class="large-6 columns">
+			<label> {{ form.name.label }}
+				{{ form.name }}
+			</label>
+		</div>
+		<div class="large-6 columns">
+			<label> {{ form.tag.label }}
+				{{ form.tag }}
+			</label>
+		</div>
+		<div class="large-12 columns">
+			<label> {{ form.description.label }}
+				{{ form.description }}
+			</label>
+		</div>
+		<div class="large-12 columns">
+			<label> {{ form.conditions.label }}
+				{{ form.conditions }}
+			</label>
+		</div>
+		<div class="large-6 columns">
+			<label> {{ form.camp.label }}
+				{{ form.camp }}
+			</label>
+			<a href="{% url 'new_camp' %}" class="add_camp"><i class="fi-plus"></i> Agregar Campo</a>
+		</div>
+		<div class="large-6 columns">
+			<label> {{ form.photo.label }}
+				{{ form.photo }}
+			</label>
+			<img src="{% static 'image/users/none.png' %}" alt="" id="image" class="image-product">
+		</div>
+		<div class="large-12 columns">
+			<div class="text-center">
+				<input type="submit" value="Guardar" class="button success radius" />
+			</div>
+		</div>
+	</form>
+</div>
+<div id="new-camp" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog"></div>
+<script>
+	$("#id_conditions").jqte();
+	$("#id_name").keyup(function(){
+		$('#id_tag').val($('#id_name').val().replace(/ /g, "-").toLowerCase());
+	});
+	$(".close-content").click(function(e){
+		e.preventDefault();
+		$('#content-new-extreme').removeClass('back-white');
+		$('#content-new-extreme').empty();
+	});
+	$("#id_photo").change(function() {
+		readURL(this);
+	});
+	function readURL(input){
+		if(input.files && input.files[0]){
+			var reader = new FileReader();
+			reader.onload = function (e){
+				$('#image').attr('src', e.target.result);
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
+	$(".add_camp").click(function(){
+		$('#new-camp').foundation('reveal', 'open', {
+			url: $(this).attr('href')
+		});
+		return false;
+	});
+	$("form#form-extreme").submit(function(event){
+		event.preventDefault();
+		var formData = new FormData(this);
+		$.ajax({
+			url: $(this).attr('action'),
+			type: $(this).attr('method'),
+			dataType: "json",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			success: function(data){
+				$('#content-list-product').append(
+					"<li>"+
+						"<div class='profile-card text-center'>"+
+							"<div class='text-center'>"+
+								"<div class='"+data.class_tag+"'>"+
+									"<p>"
+										+data.state+
+										"<span class='fi-widget' style='float: right; padding-right: 10px;'></span>"+
+									"</p>"+
+								"</div>"+
+							"</div>"+
+							"<img src='/static/"+data.photo+"' class='image-product'>"+
+								"<div class='profile-info'>"+
+									"<h4 class='subheader'>"+data.name+"</h4>"+
+									"<p>"+data.description+"</p>"+
+									"<a href='"+data.pk+"' class='button success radius'>Reservar Campo</a>"+
+							"</div>"+
+						"</div>"+
+					"</li>"
+				);
+				$('#content-new-extreme').removeClass('back-white');
+				$('#content-new-extreme').empty();
+			}
+		});
+	});
+</script>

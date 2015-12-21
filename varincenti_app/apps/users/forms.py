@@ -7,43 +7,43 @@ from django import forms
 from .models import *
 
 class LoginForm(forms.Form):
-	username = forms.CharField(label = 'Usuario')
-	password = forms.CharField(widget = forms.PasswordInput, label = 'Contraseña')
+	username = forms.CharField(label = 'Usuario', widget = forms.TextInput(attrs = {'class': 'form', 'placeholder': 'Ingresa tu usuario', 'autocomplete': 'off'}))
+	password = forms.CharField(widget = forms.PasswordInput(attrs = {'class': 'form', 'placeholder': 'Ingresa tu Contraseña', 'autocomplete': 'off'}), label = 'Contraseña')
 
 class RegisterForm(forms.Form):
-	first_name = forms.CharField(label = 'Nombres', widget = forms.TextInput(attrs = {'required': True, 'placeholder': 'Ingrese su nombre'}))
-	last_name = forms.CharField(label = 'Apellidos', widget = forms.TextInput(attrs = {'required': True, 'placeholder': 'Ingrese sus apellidos'}))
-	email = forms.EmailField(label = 'Correo Electrónico', widget = forms.TextInput(attrs = {'required': True, 'placeholder': 'Ingrese su correo electrónico', 'type': 'email'}))
-	number_telephone = forms.CharField(required = False, max_length = 10, label = 'Número Telefónico', widget = forms.TextInput(attrs = {'required': False, 'max_length': '10', 'placeholder': 'Digite su número de contácto telefónico'}))
-	number_cellphone = forms.CharField(max_length = 10, label = 'Número Celular', widget = forms.TextInput(attrs = {'required': True, 'placeholder': 'Digite su número de contácto celular'}))
-	username = forms.CharField(label = 'Usuario', widget = forms.TextInput(attrs = {'required': True, 'placeholder': 'Ingrese un usuario'}))
-	password = forms.CharField(label = 'Contraseña', widget = forms.PasswordInput(attrs = {'required': True}))
-	birthdate = forms.CharField(label = 'Fecha de Nacimiento')
+	first_name = forms.CharField(label = 'Nombres', widget = forms.TextInput(attrs = {'class': 'form', 'required': True, 'placeholder': 'Ingrese su nombre'}))
+	last_name = forms.CharField(label = 'Apellidos', widget = forms.TextInput(attrs = {'class': 'form', 'required': True, 'placeholder': 'Ingrese sus apellidos'}))
+	email = forms.EmailField(label = 'Correo Electrónico', widget = forms.TextInput(attrs = {'class': 'form', 'required': True, 'placeholder': 'Ingrese su correo electrónico', 'type': 'email'}))
+	number_telephone = forms.CharField(required = False, max_length = 10, label = 'Número Telefónico', widget = forms.TextInput(attrs = {'class': 'form', 'required': False, 'max_length': '10', 'placeholder': 'Digite su número de contácto telefónico'}))
+	number_cellphone = forms.CharField(max_length = 10, label = 'Número Celular', widget = forms.TextInput(attrs = {'class': 'form', 'required': True, 'placeholder': 'Digite su número de contácto celular'}))
+	username = forms.CharField(label = 'Usuario', widget = forms.TextInput(attrs = {'class': 'form', 'required': True, 'placeholder': 'Ingrese un usuario'}))
+	password = forms.CharField(label = 'Contraseña', widget = forms.PasswordInput(attrs = {'class': 'form', 'required': True, 'placeholder': 'Ingrese su contraseña'}))
+	birthdate = forms.CharField(label = 'Fecha de Nacimiento', widget = forms.TextInput(attrs = {'class' : 'form'}))
 	photo = forms.ImageField(label = 'Foto', required = False)
 
 	def clean_username(self):
 		username = self.cleaned_data.get('username')
 		if User.objects.filter(username = username).exists():
-			raise forms.ValidationError('El usuario '+username+' ya se encuentra en uso, por favor ingrese uno nuevo')
+			raise forms.ValidationError('El usuario ya se encuentra en uso.')
 		return username
 
 	def clean_email(self):
 		email = self.cleaned_data.get('email')
 		if User.objects.filter(email = email).exists():
-			raise forms.ValidationError('El email '+email+' ya se ecuentra en uso.')
+			raise forms.ValidationError('El email ya se ecuentra en uso.')
 		return email
 
 	def clean_number_telephone(self):
 		number_telephone = self.cleaned_data.get('number_telephone')
 		if number_telephone:
 			if ProfileUser.objects.filter(number_telephone = number_telephone).exists():
-				raise forms.ValidationError('El número '+str(number_telephone)+' ya se ecuentra en uso.')
+				raise forms.ValidationError('El número ya se ecuentra en uso.')
 		return number_telephone
 
 	def clean_number_cellphone(self):
 		number_cellphone = self.cleaned_data.get('number_cellphone')
 		if ProfileUser.objects.filter(number_cellphone = number_cellphone).exists():
-			raise forms.ValidationError('El número '+str(number_cellphone)+' ya se ecuentra en uso.')
+			raise forms.ValidationError('El número ya se ecuentra en uso.')
 		return number_cellphone
 
 	def save(self):

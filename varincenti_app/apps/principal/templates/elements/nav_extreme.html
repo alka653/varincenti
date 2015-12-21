@@ -17,6 +17,7 @@
 				</li>
 				<li><a href="{% url 'home_extreme' %}" class="rounded-hover">Inicio</a></li>
 				<li><a href="{% url 'product_extreme' %}" class="rounded-hover">Productos</a></li>
+				<li><a href="#" class="rounded-hover">Torneos</a></li>
 				{% if user.is_authenticated %}
 					<li><a href="{% url 'reservations' %}" class="rounded-hover">Reservas</a></li>
 					<li><a href="{% url 'logout' %}" class="rounded-hover">Cerrar sesión</a></li>

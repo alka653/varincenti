@@ -2,13 +2,13 @@ blue_light = #4aa3df
 blue_dark = #2980b9
 white = #fff
 green_light = #2ecc71
-green_dark = #2abb67
+green_dark = #27ae60
 red_light = #e74c3c
 red_dark = #c0392b
 yellow_dark = #f39c12
 yellow_light = #f1c40f
-dark = #2c3e50
-dark_light = #34495e
+dark = #17233B
+dark_light = #1C2B4A
 cloud = #ecf0f1
 silver = #bdc3c7
 
@@ -18,9 +18,9 @@ box-shadow(args)
 	box-shadow args
 
 border-radius(args)
-	-webkit-border-radius args
-	-moz-border-radius args
-	border-radius args
+	-webkit-border-radius args !important
+	-moz-border-radius args !important
+	border-radius args !important
 
 filter(args)
 	-webkit-filter args
@@ -39,11 +39,14 @@ transform(args)
 
 body
 	font-family 'Roboto', sans-serif
-	height 100%
+	height auto
 	background-color cloud
 
-body
-	height auto
+h4
+	font-weight 500
+
+.back
+	background-color #294072
 
 .tab-bar
 	background none
@@ -105,6 +108,7 @@ ul.off-canvas-list
 .back-white
 .back-green
 	padding 30px 15px 30px 15px
+	transition 1s
 
 .back-white
 	background-color #fff
@@ -147,7 +151,7 @@ ul.off-canvas-list
 	height auto
 
 .text-red-dark
-	color red_dark
+	color red_dark !important
 
 .alert-box
 	padding 1.3rem
@@ -270,6 +274,9 @@ footer
 .dark-light
 	background-color dark_light
 
+.dark
+	background-color dark
+
 .green-light
 	background-color green_light
 
@@ -285,9 +292,10 @@ footer
 .white
 	background-color white
 
+.dark
 .blue
 .red
-.dark_light
+.dark-light
 .green-light
 .blue-light
 .blue-dark
@@ -300,27 +308,25 @@ footer
 	small
 		color white
 
+.image-product
+	width 140px
+	height 140px
+	display block
+	margin 0 auto
+	text-align center
+	border-radius(50%)
+	box-shadow(2px 2px 5px #888888)
+
 .profile-card
-	padding-top 25px
 	box-shadow(0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12))
 	margin 2rem 0
 	background-color white
-	img
-		width 140px
-		height 140px
-		display block
-		margin 0 auto
-		text-align center
-		border-radius(50%)
-		box-shadow(2px 2px 5px #888888)
 	.profile-info
 		padding 1rem 
 		h4
 			margin-top 0
 			text-align center
 			text-transform uppercase
-		p
-			text-align center
 		.inline-list
 			text-align center
 			margin-bottom 1rem
@@ -335,15 +341,26 @@ footer
 .box
 	padding 10px 20px 3px 20px
 	color cloud
-	text-align center
 
 .container-init
 	margin-top 100px
 
 .card-login
-	background-color white
+	background-color dark_light
 	padding 15px
+	color #ccc
 	box-shadow(0px 2px 4px rgba(0,0,0,0.12))
+
+.form
+	border-radius(3px 3px)
+	background #12192C !important
+	border none !important
+	color #999 !important
+	text-align center
+
+form
+	label
+		color #999 !important
 
 .login-footer
 	p
@@ -368,6 +385,69 @@ table
 	border none
 	margin 0 auto
 
+input[type="submit"]
+	margin-top 15px
+
+.form-access
+	input[type="submit"]
+		background-color green_light !important
+		color white
+		padding 10px
+		margin-top 10px
+		&:hover
+		&:active
+		&:focus
+			background-color green_dark !important
+			color white
+
+#access
+	width 100%
+
+.social
+	display inline-block
+	color #eee
+	width 100%
+	font-size 12px
+	padding 5px 10px
+	margin-bottom 10px
+	border-radius(3px 3px)
+	i
+		font-size 17px
+
+.fb
+	background-color #3b5998
+
+.tw
+	background-color #2CA8D2
+
+.reveal-modal
+	top 50px !important
+	position fixed
+	padding 0
+
+.fixed-plus
+	display block
+	position fixed
+	z-index 99
+	bottom 100px
+	right 10px
+	color #fff
+	border-radius(10px 10px)
+
+.modal-title
+	background blue_dark
+	margin-top -3px
+	padding 2px 20px
+	#modalTitle
+		color white
+
+.content-modal
+	padding 10px 20px
+
+.close
+	position absolute
+	right 30px
+
 @media only screen and (min-width 40.063em)
 
 	.fixed-high
@@ -378,7 +458,6 @@ table
 		left 0
 
 	.box
-		text-align center
 		padding 10px 20px 3px 20px
 
 	.head-title

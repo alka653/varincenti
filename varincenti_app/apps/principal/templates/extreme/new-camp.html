@@ -1,0 +1,67 @@
+{% load staticfiles %}
+
+<div class="modal-title">
+	<h3 id="modalTitle">{{ title }}</h3>
+</div>
+<div class="content-modal">
+	<form id="form-camp" action="{% url 'new_camp' %}" method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+		<div class="large-6 columns">
+			<label> {{ form.name.label }}
+			{{ form.name }}
+			</label>
+		</div>
+		<div class="large-6 columns">
+			<label> {{ form.direction.label }}
+			{{ form.direction }}
+			</label>
+		</div>
+		<div class="large-12 columns">
+			<label> {{ form.description.label }}
+			{{ form.description }}
+			</label>
+		</div>
+		<div class="large-6 columns">
+			<label> {{ form.ubication.label }}
+			{{ form.ubication }}
+			</label>
+		</div>
+		<div class="large-6 columns">
+			<label> {{ form.photo.label }}
+			{{ form.photo }}
+			</label>
+		</div>
+		<div class="large-12 columns text-center">
+			<div id="ubication-map"></div>
+		</div>
+		<div class="large-12 columns">
+			<div class="text-center">
+				<input type="submit" value="Guardar" class="button success radius" />
+			</div>
+		</div>
+	</form>
+	<a class="close-reveal-modal" aria-label="Close">&#215;</a>
+</div>
+<script>
+	$("#id_ubication").keyup(function(){
+		$('#ubication-map').html('<iframe src="'+$(this).val()+'" width="600" height="200" frameborder="0" style="border:0" allowfullscreen></iframe>');
+	});
+	$("form#form-camp").submit(function(event){
+		event.preventDefault();
+		var formData = new FormData(this);
+		$.ajax({
+			url: $(this).attr('action'),
+			type: $(this).attr('method'),
+			dataType: "json",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			success: function(data){
+				show_content();
+				$('#new-camp').foundation('reveal', 'close');
+				$('#new-camp').empty();
+			}
+		});
+	});
+</script>

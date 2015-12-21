@@ -1,8 +1,8 @@
-from django.db import models
-from datetime import datetime
-from django.contrib.auth.models import User
-from varincenti_app.apps.principal.models import State
 from varincenti_app.apps.users.models import ProfileUser
+from varincenti_app.apps.principal.models import State
+from django.contrib.auth.models import User
+from datetime import datetime
+from django.db import models
 
 class Product_extreme(models.Model):
 	name = models.CharField(max_length = 50)
@@ -10,6 +10,7 @@ class Product_extreme(models.Model):
 	tag = models.CharField(max_length = 250)
 	conditions = models.CharField(max_length = 3000)
 	photo = models.ImageField(upload_to = 'image/extreme/product/')
+	state = models.ForeignKey(State, blank = False, null = True, default = 9)
 	def __str__(self):
 		return self.name
 

@@ -41,19 +41,6 @@ class ReservationForm(forms.ModelForm):
 		reservation_player.save()
 		return reservation
 
-	"""
-	def clean_camp_product(self):
-		camp_product = self.cleaned_data.get('camp_product')
-		date_reservation = datetime.strptime(str(self.cleaned_data.get('date_reservation')), '%Y-%m-%d')
-		hour_reservation = datetime.strptime(str(self.cleaned_data.get('hour_reservation')), '%H:%M:%S')
-		hour_reservation_2 = hour_reservation + timedelta(minutes = 59)
-		hour_reservation = hour_reservation - timedelta(minutes = 59)
-		print(camp_product)
-		if Reservation.objects.filter(date_reservation = date_reservation, hour_reservation__range = [hour_reservation, hour_reservation_2], camp_product = camp_product).exists():
-			raise forms.ValidationError('Campo '+str(camp_product)+' ocupado. Escoge otra fecha y/o campo')
-		return camp_product
-	"""
-
 class ReservationPlayerForm(forms.ModelForm):
 	class Meta:
 		model = Reservation_player
@@ -73,3 +60,44 @@ class ReservationPlayerForm(forms.ModelForm):
 			if Reservation_player.objects.filter(reservation = reservation, player_user = user).exists():
 				raise forms.ValidationError('El usuario '+user.username+' ya se encuentra agregado.')
 		return player_user
+
+class ProductForm(forms.Form):
+	name = forms.CharField(label = 'Nombre del ExtremeEntertainment', widget = forms.TextInput(attrs = {'required': True, 'placeholder': 'Escribe el nombre del ExtremeEntertainment'}))
+	tag = forms.CharField(label = 'Tag', widget = forms.TextInput(attrs = {'readonly': True}))
+	photo = forms.ImageField(label = 'Foto', required = False)
+	description = forms.CharField(label = 'Descripcion', widget = forms.TextInput(attrs = {'required': True, 'placeholder': 'Escribe una descripcion'}))
+	conditions = forms.CharField(label = 'Condiciones', widget = forms.Textarea(attrs = {'required': True}))
+	camp = forms.ModelMultipleChoiceField(label = 'Campo(s)', queryset = Place_camp.objects.all())
+
+	def save(self):
+		name = self.cleaned_data.get('name')
+		tag = self.cleaned_data.get('tag')
+		photo = self.cleaned_data.get('photo')
+		description = self.cleaned_data.get('description')
+		conditions = self.cleaned_data.get('conditions')
+		camp = self.cleaned_data.get('camp')
+		product = Product_extreme(name = name, tag = tag, photo = photo, description = description, conditions = conditions)
+		product.save()
+		for camps in camp:
+			place_camp = Place_camp.objects.get(pk = camps.pk)
+			camp_product = Camp_product(product_extreme = product, place_camp = place_camp)
+			camp_product.save()
+		return product
+
+class CampForm(forms.ModelForm):
+	class Meta:
+		model = Place_camp
+		fields = '__all__'
+		widgets = {
+			'name': TextInput(attrs = {'required': True, 'placeholder': 'Ingrese el nombre del campo'}),
+			'direction': TextInput(attrs = {'required': True, 'placeholder': 'Ingrese la direccion del campo'}),
+			'description': TextInput(attrs = {'placeholder': 'Ingrese una descripcion corta del campo'}),
+			'ubication': TextInput(attrs = {'required': True, 'placeholder': 'Ingrese la ubicacion del campo'}),
+		}
+		labels = {
+			'name': 'Nombre del Campo',
+			'direction': 'Direccion del Campo',
+			'description': 'Descripcion',
+			'ubication': 'Ubication (Google Maps)',
+			'photo': 'Foto'
+		}

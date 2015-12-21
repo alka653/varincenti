@@ -2,6 +2,11 @@
 
 {% load staticfiles %}
 
+{% block content_head %}
+	<link rel="stylesheet" href="{% static 'css/jquery-te-1.4.0.css' %}">
+	<script src="{% static 'js/jquery-te-1.4.0.min.js' %}"></script>
+{% endblock content_head %}
+
 {% block content_nav %}
 	{% include 'elements/nav_extreme.html' %}
 {% endblock content_nav %}
@@ -20,22 +25,54 @@
 		</div>
 	</div>
 	<div class="row" id="product_list">
-		<ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3">
+		<ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3" id="content-list-product">
+			{% if user.is_superuser %}
+				<a href="#" class="button fixed-plus">
+					<span class="fi-plus"></span>
+				</a>
+			{% endif %}
 			{% for product in products %}
 				<li>
-					<div class="profile-card">
+					<div class="profile-card text-center">
+						{% if user.is_superuser %}
+							<div class="text-center">
+								<div class="{{ product.state.class_tag }}">
+									<p>
+										{{ product.state.name }}
+										<span class="fi-widget" style="float: right; padding-right: 10px;"></span>
+									</p>
+								</div>
+							</div>
+						{% endif %}
 						<img src="{% static product.photo %}" class="image-product">
 						<div class="profile-info">
 							<h4 class="subheader">{{ product.name }}</h4>
 							<p>{{ product.description }}</p>
-							<p><a href="{% url 'make_reservation' product.id %}">Reservar Campo</a>
+							<a href="{% url 'make_reservation' product.id %}" class="button success radius">Reservar Campo</a>
 						</div>
 					</div>
 				</li>
 			{% endfor %}
 		</ul>
+		{% for message in messages %}
+			<div class="alert-box {{ message.tags }}">{{ message }}</div>
+		{% endfor %}
 	</div>
+	<div id="content-new-extreme"></div>
 {% endblock content %}
+
+{% block content_script %}
+	$('.fixed-plus').click(function(e){
+		e.preventDefault();
+		show_content();
+	});
+	function show_content(){
+		$.get("{% url 'new_extreme' %}", function(data) {
+			$('#content-new-extreme').addClass('back-white');
+			$('#content-new-extreme').html(data);
+		});
+	}
+{% endblock content_script %}
 
 {% block content_footer %}
 	{% include 'elements/footer_extreme.html' %}

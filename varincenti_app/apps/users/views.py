@@ -21,17 +21,17 @@ def authenticate_user(request):
 		if user is not None:
 			if user.is_active:
 				login(request, user)
-				return HttpResponseRedirect('/Marcas/ExtremeEntretairment')
+				return HttpResponseRedirect(reverse('home_extreme'))
 			else:
 				messages.add_message(request, 40, 'Usuario inactivo')
 		else:
 			messages.add_message(request, 30, 'Usuario no existente')
-	return render(request, 'users/login.html', {'form': form, 'title': title, 'template': ' '})
+	return render(request, 'users/login.html', {'form': form, 'title': title, 'template': ' ', 'body': 'back'})
 
 def logout_user(request):
 	logout(request)
 	messages.add_message(request, 25, 'Exito al cerrar sesión')
-	return HttpResponseRedirect('/Login')
+	return HttpResponseRedirect(reverse('login'))
 
 @csrf_exempt
 @check_auth
@@ -42,12 +42,12 @@ def register_user(request):
 		if form.is_valid():
 			form.save()
 			messages.add_message(request, 25, 'Te has Registrado')
-			return HttpResponseRedirect('/Registrarme')
+			return HttpResponseRedirect(reverse('register'))
 		else:
 			messages.add_message(request, 30, 'Ha ocurrido un error')
 	else:
 		form = RegisterForm()
-	return render(request, 'users/register.html', {'form': form, 'title': title, 'template': ' '})
+	return render(request, 'users/register.html', {'form': form, 'title': title, 'template': ' ', 'body': 'back'})
 
 def find_player(request):
 	if request.is_ajax:

@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
-from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from varincenti_app.apps.principal.backends import *
 from django.core.urlresolvers import reverse
@@ -20,28 +20,23 @@ def home_extreme(request):
 	return render(request, 'extreme/home.html', {'title': title})
 
 def product_extreme(request):
-	product = Product_extreme.objects.all()
+	if request.user.is_superuser:
+		product = Product_extreme.objects.all()
+	else:
+		product = Product_extreme.objects.filter(state = 9)
 	title = 'Nuestros productos'
 	return render(request, 'extreme/product.html', {'title': title, 'products': product, 'row': 0})
 
 @login_required(login_url = '/Login')
 def invite(request):
-	if has_friends_permission(request.user):
-		friends = get_friends(request.user)
-	else:
-		friends = []
+	friends = get_friends(request.user)
 	return render(request, 'extreme/invite.html', {'friends': friends, 'SOCIAL_AUTH_FACEBOOK_KEY': settings.SOCIAL_AUTH_FACEBOOK_KEY})
-
-def has_friends_permission(user):
-	facebook = user.social_auth.get(provider='facebook')
-	url = 'https://graph.facebook.com/me/permissions'
-	permissions = request('GET', url, params={'access_token': facebook.extra_data['access_token']}).json()
-	return permissions['data'][0].get('user_friends') or False
 
 def get_friends(user):
 	facebook = user.social_auth.get(provider='facebook')
-	url = 'https://graph.facebook.com/me/friends'.format(facebook.uid)
+	url = 'https://graph.facebook.com/v2.5/me/taggable_friends?'.format(facebook.uid)
 	friends = request('GET', url, params={'access_token': facebook.extra_data['access_token']}).json()
+	print(friends)
 	return friends['data']
 
 @login_required(login_url = '/Login')
@@ -81,7 +76,6 @@ def make_reservation_player(request, reservation_id):
 		else:
 			request.POST['player_user'] = user.username
 			messages.add_message(request, 40, 'Ha ocurrido un error.')
-		print(request.POST['player_user'])
 	else:
 		form = ReservationPlayerForm(instance = reservation)
 	return render(request, 'extreme/reservation_player.html', {'title': title, 'players': players, 'form': form, 'reservation': reservation_data})
@@ -155,3 +149,44 @@ def delete_reservation(request, reservation_id):
 	reservation.delete()
 	messages.add_message(request, 25, 'Reserva eliminada exitosamente.')
 	return HttpResponseRedirect(reverse('reservations'))
+
+@premissions_check
+def new_extreme(request):
+	title = 'Agregar nuevo extreme'
+	if request.method == 'POST':
+		response = {}
+		form = ProductForm(request.POST or None, request.FILES or None)
+		if form.is_valid():
+			extreme = form.save()
+			response['name'] = extreme.name
+			response['description'] = extreme.description
+			response['pk'] = extreme.pk
+			response['state'] = extreme.state.name
+			response['class_tag'] = extreme.state.class_tag
+			response['photo'] = str(extreme.photo)
+		else:
+			response['response'] = "Error al guardar"
+		return HttpResponse(json.dumps(response), content_type = 'application/json')
+	else:
+		form = ProductForm()
+	return render(request, 'extreme/new-extreme.html', {'title': title, 'form': form})
+
+@premissions_check
+def edit_extreme(request, product_id):
+	pass
+
+@csrf_exempt
+def new_camp(request):
+	title = 'Agregar Campo'
+	if request.method == 'POST':
+		response = {}
+		form = CampForm(request.POST or None, request.FILES or None)
+		if form.is_valid():
+			form.save()
+			response['response'] = "Exito al guardar"
+		else:
+			response['response'] = "Error al guardar"
+		return HttpResponse(json.dumps(response), content_type = 'application/json')
+	else:
+		form = CampForm()
+		return render(request, 'extreme/new-camp.html', {'title': title, 'form': form})
